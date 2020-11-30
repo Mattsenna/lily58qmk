@@ -219,13 +219,32 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 #ifdef ENCODER_ENABLE
-void encoder_update_user(uint8_t index, bool clockwise) {
+void encoder_update_user(uint8_t index, bool clockwise,uint8_t layer0, uint8_t layer1, uint8_t layer2) {
     if (index == 0) { /* First encoder */
+    if (IS_LAYER_ON(layer0))
+    {
         if (clockwise) {
             tap_code(KC_VOLU);
         } else {
             tap_code(KC_VOLD);
         }
+    }
+    else if (IS_LAYER_ON(layer1))
+    {
+        if (clockwise) {
+            tap_code(KC_RIGHT);
+        } else {
+            tap_code(KC_LEFT);
+        }
+    }
+    else if (IS_LAYER_ON(layer2))
+    {
+        if (clockwise) {
+            tap_code(KC_VOLU);
+        } else {
+            tap_code(KC_VOLD);
+        }
+    }
     }
 }
 #endif
