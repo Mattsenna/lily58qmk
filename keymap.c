@@ -219,8 +219,38 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 #ifdef ENCODER_ENABLE
-void encoder_update_user(uint8_t index, bool clockwise,uint8_t layer0, uint8_t layer1, uint8_t layer2) {
-    if (index == 0) { /* First encoder */
+void encoder_update_user(uint8_t index, bool clockwise) {
+        if (index == 0) {
+            // not _LOWER and not _ASCII so only QWERTY is active
+            if (!IS_LAYER_ON(_LOWER) && !IS_LAYER_ON(_RAISE)) 
+            {
+                if (clockwise) {
+                    tap_code(KC_VOLU);
+                } else {
+                    tap_code(KC_VOLD);
+                }
+            }
+            // If _LOWER (only one we really care about here)
+            else if (IS_LAYER_ON(_LOWER)) {
+                if (clockwise) {
+                    tap_code(KC_RIGHT);
+                } else {
+                    tap_code(KC_LEFT);
+                }
+            }
+            // If _RAISE (only one we really care about here)
+            else if (IS_LAYER_ON(_RAISE)) {
+                if (clockwise) {
+                    tap_code(KC_PGDOWN);
+                } else {
+                    tap_code(KC_PGUP);
+                }
+            }
+        }
+    }
+
+/* void encoder_update_user(uint8_t index, bool clockwise,uint8_t layer0, uint8_t layer1, uint8_t layer2) {
+    if (index == 0) {  First encoder 
     if (IS_LAYER_ON(layer0))
     {
         if (clockwise) {
@@ -246,5 +276,5 @@ void encoder_update_user(uint8_t index, bool clockwise,uint8_t layer0, uint8_t l
         }
     }
     }
-}
+} */
 #endif
