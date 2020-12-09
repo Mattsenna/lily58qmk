@@ -226,25 +226,35 @@ void encoder_update_user(uint8_t index, bool clockwise) {
             if (!IS_LAYER_ON(_LOWER) && !IS_LAYER_ON(_RAISE)) 
             {
                 if (clockwise) {
-                    tap_code(KC_PGDOWN);
+                    //tap_code(KC_PGDOWN);
+                    register_code(KC_LCTL);
+                    tap_code(KC_TAB);
+                    unregister_code(KC_LCTL);
                 } else {
-                    tap_code(KC_PGUP);
+                    //tap_code(KC_PGUP);
+                    register_code(KC_LSFT);
+                    register_code(KC_LCTL);
+                    tap_code(KC_TAB);
+                    unregister_code(KC_LCTL);
+                    unregister_code(KC_LSFT);
                 }
             }
             // If _LOWER (only one we really care about here)
             else if (IS_LAYER_ON(_LOWER)) {
                 if (clockwise) {
-                    tap_code(KC_VOLU);
+                    tap_code(KC_PGDOWN);
                 } else {
-                    tap_code(KC_VOLD);
+                    tap_code(KC_PGUP);
                 }
             }
             // If _RAISE (only one we really care about here)
             else if (IS_LAYER_ON(_RAISE)) {
                 if (clockwise) {
-                    tap_code(KC_RIGHT);
+                    tap_code(KC_VOLU);
+
                 } else {
-                    tap_code(KC_LEFT);
+                    tap_code(KC_VOLD);
+
                 }
             }
         }
